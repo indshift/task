@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DataGenerator implements Generator {
@@ -23,8 +21,6 @@ public class DataGenerator implements Generator {
     private long maxSecondDayValue;
     private DateTimeFormatter formatter;
     private ArrayList<String> salePoints;
-
-
 
     @Override
     public List<Operation> generateOperations(ProcessConfiguration configuration) {
@@ -39,8 +35,8 @@ public class DataGenerator implements Generator {
         }
 
         this.conf = configuration;
-        localDateFrom = conf.getLocalDateFrom();
-        localDateTo = conf.getLocalDateTo();
+        localDateFrom = conf.getDateFrom();
+        localDateTo = conf.getDateTo();
         maxSecondDayValue = conf.getMaxSecondDayValue();
         minSecondDayValue = conf.getMinSecondDayValue();
         formatter = configuration.getFormatter();
@@ -56,7 +52,6 @@ public class DataGenerator implements Generator {
     private void makeOperations(){
         operationsList = new ArrayList<>(conf.getOperationsQuantity());
 
-        //todo переписать на стрим
         for (int i = 1; i <= conf.getOperationsQuantity(); i++) {
             String dateTime = getDateTime();
             String salePoint = getRandomSalePoint();
@@ -95,18 +90,16 @@ public class DataGenerator implements Generator {
     }
 
     private LocalDate getRandomLocalDate(){
-        long randomEpochDay = ThreadLocalRandom.current()
-                .longs(localDateFrom.toEpochDay(), localDateTo.toEpochDay()).findAny().getAsLong();
+        long randomEpochDay =
+                getRandomLong(localDateFrom.toEpochDay(), localDateTo.toEpochDay());
 
         return LocalDate.ofEpochDay(randomEpochDay);
     }
 
     private LocalTime getRandomLocalTime(){
         //поскольку randomNumberBound не включается, то увеличим на 1
-        long randomTime = ThreadLocalRandom.current()
-                .longs(minSecondDayValue, maxSecondDayValue - 1).findAny().getAsLong();
+        long randomTime = getRandomLong(minSecondDayValue, maxSecondDayValue + 1);
 
         return LocalTime.ofSecondOfDay(randomTime);
     }
-
 }

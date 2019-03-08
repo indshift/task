@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class DataReader implements Reader {
-    Set<String> pointSet;
+    private Set<String> pointSet;
 
     @Override
     public Set<String> readSailPoints(String path) {
