@@ -1,43 +1,43 @@
 package ru.task.generator;
 
 
-import java.time.Clock;
+import ru.task.generator.objects.ResultFiles;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Класс - конфигуратор генерируемых данных
+ */
 public class ProcessConfiguration {
-
     private String officesFilePath;
     private int operationsQuantity;
-    private Set<String> operationFilesResult;
+    ResultFiles resultFiles;
     private static final double minOperation =  10_000.12;
     private static final double maxOperation = 100_000.50;
-    private LocalDate localDateFrom;
-    private LocalDate LocalDateTo;
-    private long minSecondDayValue = 0;
-    private long maxSecondDayValue = 24 * 60 * 60 - 1;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
+    private long minSecondDayValue = 0; //секунд в дне
+    private long maxSecondDayValue = 24 * 60 * 60 - 1; //секунд в дней
     private DateTimeFormatter formatter;
-
 
     private Set<String> salePointSet;
 
-    public ProcessConfiguration(String officesFilePath,
+    private ProcessConfiguration(String officesFilePath,
             int operationsQuantity,
-            Set<String> operationFilesResult) {
+            ResultFiles resultFiles) {
         this.officesFilePath = officesFilePath;
         this.operationsQuantity = operationsQuantity;
-        this.operationFilesResult = operationFilesResult;
+        this.resultFiles = resultFiles;
 
         int currentYear = LocalDateTime.now().getYear();
 
-        localDateFrom = LocalDate.of(currentYear - 1, Month.JANUARY,01);
-        LocalDateTo = LocalDate.of(currentYear, Month.JANUARY,01);
+        dateFrom = LocalDate.of(currentYear - 1, Month.JANUARY,01);
+        dateTo = LocalDate.of(currentYear, Month.JANUARY,01);
         formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
     }
 
     public static ProcessConfiguration getConfiguratoin(String[] args) throws Exception {
@@ -58,20 +58,19 @@ public class ProcessConfiguration {
             throw new Exception(message);
         }
 
-        //String ops1 = args[]
-        Set<String> operationFilesResult = new HashSet<>();
+        //String ops1 = args[i>=2]
+        ResultFiles resultFiles = new ResultFiles();
 
         for (int i = 2; i < args.length; i++) {
-            operationFilesResult.add(args[i]);
+            resultFiles.addFile(args[i]);
         }
 
         ProcessConfiguration configuration = new ProcessConfiguration(
                 offices,
                 operationsQuantity,
-                operationFilesResult);
+                resultFiles);
         return configuration;
     }
-
 
     public String getOfficesFilePath() {
         return officesFilePath;
@@ -81,8 +80,8 @@ public class ProcessConfiguration {
         return operationsQuantity;
     }
 
-    public Set<String> getOperationFilesResult() {
-        return operationFilesResult;
+    public ResultFiles getOperationFilesResult() {
+        return this.resultFiles;
     }
 
     public static double getMinOperation() {
@@ -101,12 +100,12 @@ public class ProcessConfiguration {
         this.salePointSet = salePointSet;
     }
 
-    public LocalDate getLocalDateFrom() {
-        return localDateFrom;
+    public LocalDate getDateFrom() {
+        return dateFrom;
     }
 
-    public LocalDate getLocalDateTo() {
-        return LocalDateTo;
+    public LocalDate getDateTo() {
+        return dateTo;
     }
 
     public long getMinSecondDayValue() {
