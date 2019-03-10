@@ -74,7 +74,7 @@ public class DataGenerator implements Generator {
     private double getRandomDouble(double from, double to){
         return ThreadLocalRandom.current().doubles(from, to).findAny().getAsDouble();
     }
-    private long getRandomLong(long from, long to){//TODO переиспользовать для генерации времени
+    private long getRandomLong(long from, long to){
         return ThreadLocalRandom.current().longs(from, to).findAny().getAsLong();
     }
     private int getRandomInt(int from, int to){
