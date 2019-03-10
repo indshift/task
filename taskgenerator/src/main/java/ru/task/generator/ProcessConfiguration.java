@@ -20,9 +20,10 @@ public class ProcessConfiguration {
     private static final double maxOperation = 100_000.50;
     private LocalDate dateFrom;
     private LocalDate dateTo;
-    private long minSecondDayValue = 0; //секунд в дне
-    private long maxSecondDayValue = 24 * 60 * 60 - 1; //секунд в дней
+    private long minSecondDayValue = 0; //секунд в одном дне
+    private long maxSecondDayValue = 24 * 60 * 60 - 1; //секунд в одном дне
     private DateTimeFormatter formatter;
+    private String dateTimeFormatPattern = "dd.MM.yyyy HH:mm"; //т.к. конфиг - храним здесь
 
     private Set<String> salePointSet;
 
@@ -37,7 +38,7 @@ public class ProcessConfiguration {
 
         dateFrom = LocalDate.of(currentYear - 1, Month.JANUARY,01);
         dateTo = LocalDate.of(currentYear, Month.JANUARY,01);
-        formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        formatter = DateTimeFormatter.ofPattern(dateTimeFormatPattern);
     }
 
     public static ProcessConfiguration getConfiguratoin(String[] args) throws Exception {
