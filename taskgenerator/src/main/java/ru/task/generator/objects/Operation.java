@@ -12,7 +12,7 @@ public class Operation {
     private int operationNumber;
     private double operationSum;
     private final static DecimalFormat df;
-    private final static String OPERATION_SUM_FORMAT = "#.##";
+    private final static String OPERATION_SUM_FORMAT = "#.00";
 
     static {
         df = new DecimalFormat(OPERATION_SUM_FORMAT);

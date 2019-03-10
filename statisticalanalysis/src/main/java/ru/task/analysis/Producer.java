@@ -15,7 +15,6 @@ public class Producer {
     ProcessConfiguration config;
     ProcessData processData;
 
-
     public void produce(String[] args) throws Exception {
         config = ProcessConfiguration.getConfiguratoin(args);
         DataReader reader = new DataReader();
@@ -26,7 +25,7 @@ public class Producer {
         processData = new ProcessData();
         processData.setRowOperations(rowOperations);
 
-        //перевести данные в объекты
+        //переведем данные в объекты
         OperationParser parser = new OperationParser(config);
         List<Operation> operationList = parser.parse(processData.getRowOperations());
         processData.setOperations(operationList);
@@ -53,12 +52,12 @@ public class Producer {
                 sortSumByPoint(sumByPoint);
         processData.setOperationSumByPointSorted(operationSumByPointSorted);
 
+        //запишем все в файлы
         Writer writer = new DataWriter();
         writer.writeSumByDate(processData.getOperationSumByDaySorted(), config.getStatsDatesFileName());
         writer.writeSumByPoint(processData.getOperationSumByPointSorted(), config.getStatsOfficesFileName());
     }
 
-    //TODO выделить в отдельный класс
     private List<Map.Entry<String, Double>> sortSumByPoint(Map<String, Double> map) {
         List<Map.Entry<String, Double>> list = new LinkedList<>(map.entrySet());
         Collections.sort(list, new SumComparator());

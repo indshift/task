@@ -15,7 +15,7 @@ import java.util.Set;
 public class ProcessConfiguration {
     private String officesFilePath;
     private int operationsQuantity;
-    ResultFiles resultFiles;
+    private ResultFiles resultFiles;
     private static final double minOperation =  10_000.12;
     private static final double maxOperation = 100_000.50;
     private LocalDate dateFrom;

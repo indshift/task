@@ -17,15 +17,17 @@ public class ProcessConfiguration {
     private String timeFormat = "HH:mm";
 
     private final static DecimalFormat df;
-    private final static String OPERATION_SUM_FORMAT = "#.##";
+    private final static String OPERATION_SUM_FORMAT = "#.00";
 
     private final static DateTimeFormatter dateFormatter;
+
+    private final static String runParamsExample =
+            "task2.jar stats-dates.txt stats-offices.txt ops1.txt ops2.txt ops3.txt";
 
     static {
         df = new DecimalFormat(OPERATION_SUM_FORMAT);
         dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
     }
-
 
     public ProcessConfiguration(String statsDatesFileName,
                                 String statsOfficesFileName,
@@ -59,9 +61,9 @@ public class ProcessConfiguration {
     private static void checkArgs(String[] args) throws Exception {
         if (args.length < 3) {
             String errorText1 = "Задайте корректно входные параметры " +
-                    "в виде task2.jar stats-dates.txt stats-offices.txt ops1.txt ops2.txt ops3.txt " +
-                    "где первые два параметра - файлы для записи результатов. " +
-                    "третий и далее параметр - файлы с входными данными";
+                    "в виде " + runParamsExample +
+                    "где первые два параметра - файлы для записи результатов; " +
+                    "третий и далее параметры - файлы с входными данными";
             throw new Exception(errorText1);
         }
     }
@@ -92,5 +94,9 @@ public class ProcessConfiguration {
 
     public static DateTimeFormatter getDateFormatter() {
         return dateFormatter;
+    }
+
+    public static String getRunParamsExample() {
+        return runParamsExample;
     }
 }
