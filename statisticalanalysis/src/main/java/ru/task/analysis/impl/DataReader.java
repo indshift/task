@@ -1,5 +1,6 @@
 package ru.task.analysis.impl;
 
+import ru.task.analysis.ProcessConfiguration;
 import ru.task.analysis.agreement.Reader;
 import ru.task.analysis.objects.DataInputFiles;
 
@@ -21,7 +22,9 @@ public class DataReader implements Reader {
             try (Stream<String> stream = Files.lines(Paths.get(files.get(i)))) {
                 stream.forEach(this::addOperationToArray);
             } catch (IOException e){
-                System.out.println("Кажется что-то пошло не так при чтении точек обслуживания");
+                System.out.println("Кажется что-то пошло не так при чтении точек обслуживания!");
+                System.out.println("Файлы должны существовать в директории запуска программы!");
+                System.out.println("Пример запуска программы " + ProcessConfiguration.getRunParamsExample());
             }
         }
 
